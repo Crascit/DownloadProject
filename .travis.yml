@@ -1,12 +1,6 @@
-sudo: false
-
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - kubuntu-backports
-    packages:
-      - cmake
+# Need these for a more recent CMake on Linux
+sudo: required
+dist: trusty
 
 os:
   - linux
