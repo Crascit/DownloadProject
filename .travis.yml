@@ -4,6 +4,7 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
+      - kubuntu-backports
     packages:
       - cmake
 
