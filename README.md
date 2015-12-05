@@ -1,5 +1,7 @@
 # DownloadProject
 
+[![Build Status](https://travis-ci.org/Crascit/DownloadProject.svg?branch=master)](https://travis-ci.org/Crascit/DownloadProject)
+
 This repository contains a generalized implementation for downloading an
 external project's source at CMake's configure step rather than as part
 of the main build. The primary advantage of this is that the project's source
