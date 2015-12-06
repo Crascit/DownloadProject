@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.11)
 
-project(${DL_ARGS_PROJ}-download LANGUAGES NONE)
+project(${DL_ARGS_PROJ}-download NONE)
 
 include(ExternalProject)
 ExternalProject_Add(${DL_ARGS_PROJ}-download
