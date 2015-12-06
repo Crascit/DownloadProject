@@ -17,10 +17,6 @@ download_project(PROJ                googletest
                  ${UPDATE_DISCONNECTED_IF_AVAILABLE}
 )
 
-# Override googletest defaults for these
-option(BUILD_GTEST "Build gtest" ON)
-option(BUILD_GMOCK "Build gmock" ON)
-
 add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR} EXCLUDE_FROM_ALL)
 
 # At time of writing, gtest and gmock don't add a public include directory
