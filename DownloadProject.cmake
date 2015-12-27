@@ -66,6 +66,8 @@
 #========================================================================================
 
 
+set(_DownloadProjectDir "${CMAKE_CURRENT_LIST_DIR}")
+
 include(CMakeParseArguments)
 
 function(download_project)
@@ -106,7 +108,8 @@ function(download_project)
     # Create and build a separate CMake project to carry out the download.
     # If we've already previously done these steps, they will not cause
     # anything to be updated, so extra rebuilds of the project won't occur.
-    configure_file(DownloadProject.CMakeLists.cmake.in ${DL_ARGS_PROJ}-download/CMakeLists.txt)
+    configure_file("${_DownloadProjectDir}/DownloadProject.CMakeLists.cmake.in"
+                   ${DL_ARGS_PROJ}-download/CMakeLists.txt)
     execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
                     ${OUTPUT_QUIET}
                     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/${DL_ARGS_PROJ}-download"
