@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 2.8.2)
 
 project(Example)
 
@@ -19,11 +19,14 @@ download_project(PROJ                googletest
 
 add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR} EXCLUDE_FROM_ALL)
 
-# At time of writing, gtest and gmock don't add a public include directory
-# to their respective targets for their headers, so we have to explicitly
-# add them ourselves so that client code finds gtest/gtest.h and gmock/gmock.h
-target_include_directories(gtest      INTERFACE "${gtest_SOURCE_DIR}/include")
-target_include_directories(gmock_main INTERFACE "${gmock_SOURCE_DIR}/include")
+# When using CMake 2.8.11 or later, header path dependencies
+# are automatically added to the gtest and gmock targets.
+# For earlier CMake versions, we have to explicitly add the
+# required directories to the header search path ourselves.
+if (CMAKE_VERSION VERSION_LESS 2.8.11)
+    include_directories("${gtest_SOURCE_DIR}/include"
+                        "${gmock_SOURCE_DIR}/include")
+endif()
 
 # Trivial example using gtest and gmock
 add_executable(example example.cpp)
