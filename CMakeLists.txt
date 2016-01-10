@@ -17,6 +17,10 @@ download_project(PROJ                googletest
                  ${UPDATE_DISCONNECTED_IF_AVAILABLE}
 )
 
+# Prevent GoogleTest from overriding our compiler/linker options
+# when building with Visual Studio
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
 add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
 
 # When using CMake 2.8.11 or later, header path dependencies
