@@ -17,7 +17,7 @@ download_project(PROJ                googletest
                  ${UPDATE_DISCONNECTED_IF_AVAILABLE}
 )
 
-add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR} EXCLUDE_FROM_ALL)
+add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
 
 # When using CMake 2.8.11 or later, header path dependencies
 # are automatically added to the gtest and gmock targets.
