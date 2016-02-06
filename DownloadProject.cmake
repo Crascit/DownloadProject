@@ -2,6 +2,8 @@
 #
 # PROVIDES:
 #   download_project( PROJ projectName
+#                    [PREFIX prefixDir]
+#                    [DOWNLOAD_DIR downloadDir]
 #                    [SOURCE_DIR srcDir]
 #                    [BINARY_DIR binDir]
 #                    [QUIET]
@@ -27,6 +29,14 @@
 #       and build directories to be located in a specific place. The contents of
 #       projectName_SOURCE_DIR and projectName_BINARY_DIR will be populated with the
 #       locations used whether you provide SOURCE_DIR/BINARY_DIR or not.
+#
+#       The DOWNLOAD_DIR argument does not normally need to be set. It controls the
+#       location of the temporary CMake build used to perform the download.
+#
+#       The PREFIX argument can be provided to change the base location of the default
+#       values of DOWNLOAD_DIR, SOURCE_DIR and BINARY_DIR. If all of those three arguments
+#       are provided, then PREFIX will have no effect. The default value for PREFIX is
+#       CMAKE_BINARY_DIR.
 #
 #       The QUIET option can be given if you do not want to show the output associated
 #       with downloading the specified project.
@@ -61,7 +71,7 @@
 #                    QUIET
 #   )
 #
-#   add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR} EXCLUDE_FROM_ALL)
+#   add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
 #
 #========================================================================================
 
@@ -75,6 +85,8 @@ function(download_project)
     set(options QUIET)
     set(oneValueArgs
         PROJ
+        PREFIX
+        DOWNLOAD_DIR
         SOURCE_DIR
         BINARY_DIR
         # Prevent the following from being passed through
@@ -95,12 +107,21 @@ function(download_project)
         message(STATUS "Downloading/updating ${DL_ARGS_PROJ}")
     endif()
 
+    # Set up where we will put our temporary CMakeLists.txt file and also
+    # the base point below which the default source and binary dirs will be
+    if (NOT DL_ARGS_PREFIX)
+        set(DL_ARGS_PREFIX "${CMAKE_BINARY_DIR}")
+    endif()
+    if (NOT DL_ARGS_DOWNLOAD_DIR)
+        set(DL_ARGS_DOWNLOAD_DIR "${DL_ARGS_PREFIX}/${DL_ARGS_PROJ}-download")
+    endif()
+
     # Ensure the caller can know where to find the source and build directories
     if (NOT DL_ARGS_SOURCE_DIR)
-        set(DL_ARGS_SOURCE_DIR "${CMAKE_BINARY_DIR}/${DL_ARGS_PROJ}-src")
+        set(DL_ARGS_SOURCE_DIR "${DL_ARGS_PREFIX}/${DL_ARGS_PROJ}-src")
     endif()
     if (NOT DL_ARGS_BINARY_DIR)
-        set(DL_ARGS_BINARY_DIR "${CMAKE_BINARY_DIR}/${DL_ARGS_PROJ}-build")
+        set(DL_ARGS_BINARY_DIR "${DL_ARGS_PREFIX}/${DL_ARGS_PROJ}-build")
     endif()
     set(${DL_ARGS_PROJ}_SOURCE_DIR "${DL_ARGS_SOURCE_DIR}" PARENT_SCOPE)
     set(${DL_ARGS_PROJ}_BINARY_DIR "${DL_ARGS_BINARY_DIR}" PARENT_SCOPE)
@@ -109,14 +130,14 @@ function(download_project)
     # If we've already previously done these steps, they will not cause
     # anything to be updated, so extra rebuilds of the project won't occur.
     configure_file("${_DownloadProjectDir}/DownloadProject.CMakeLists.cmake.in"
-                   ${DL_ARGS_PROJ}-download/CMakeLists.txt)
+                   "${DL_ARGS_DOWNLOAD_DIR}/CMakeLists.txt")
     execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
                     ${OUTPUT_QUIET}
-                    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/${DL_ARGS_PROJ}-download"
+                    WORKING_DIRECTORY "${DL_ARGS_DOWNLOAD_DIR}"
     )
     execute_process(COMMAND ${CMAKE_COMMAND} --build .
                     ${OUTPUT_QUIET}
-                    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/${DL_ARGS_PROJ}-download"
+                    WORKING_DIRECTORY "${DL_ARGS_DOWNLOAD_DIR}"
     )
 
 endfunction()
