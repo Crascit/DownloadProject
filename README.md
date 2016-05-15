@@ -1,6 +1,10 @@
 # DownloadProject
 
-[![Build Status](https://travis-ci.org/Crascit/DownloadProject.svg?branch=master)](https://travis-ci.org/Crascit/DownloadProject)
+
+Platform | Build status
+---------|-------------:
+Linux<br>Mac OSX | [![Build Status](https://travis-ci.org/Crascit/DownloadProject.svg?branch=master)](https://travis-ci.org/Crascit/DownloadProject)
+Windows (VS2015) | [![Build status](https://ci.appveyor.com/api/projects/status/1qdjq4fpef25tftw/branch/master?svg=true)](https://ci.appveyor.com/project/Crascit/downloadproject/branch/master)
 
 This repository contains a generalized implementation for downloading an
 external project's source at CMake's configure step rather than as part
