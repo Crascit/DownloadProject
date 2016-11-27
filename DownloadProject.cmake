@@ -59,7 +59,14 @@
 #       prevent a check at the remote end for changes every time CMake is run
 #       after the first successful download. See the documentation of the ExternalProject
 #       module for more information. It is likely you will want to use this option if it
-#       is available to you.
+#       is available to you. Note, however, that a bug in the ExternalProject implementation
+#       before CMake 3.6 means that some generators do not properly handle the
+#       UPDATE_DISCONNECTED option in some situations. Details can be found here:
+#
+#           https://gitlab.kitware.com/cmake/cmake/commit/bdca68388bd57f8302d3c1d83d691034b7ffa70c
+#
+#       If you experience build errors when using URL as the download method, consider
+#       avoiding the use of UPDATE_DISCONNECTED.
 #
 # EXAMPLE USAGE:
 #
