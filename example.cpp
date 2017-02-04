@@ -13,7 +13,7 @@ TEST(Dummy, foobar)
 class TeaBreak
 {
 public:
-    ~TeaBreak() {}
+    virtual ~TeaBreak() {}
 
     // Return minutes taken to make the drinks
     int morningTea()
