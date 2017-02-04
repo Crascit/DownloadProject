@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.2)
 
-project(Example)
+project(DP_Example)
 
 include(CTest)
 
