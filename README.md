@@ -14,7 +14,7 @@ add_subdirectory() command, making all of the external project's targets,
 etc. available without any further effort. The technique is fully explained
 in the article available at:
 
-http://crascit.com/2015/07/25/cmake-gtest/
+https://crascit.com/2015/07/25/cmake-gtest/
 
 An example as described in that article is provided here to demonstrate
 how to use the DownloadProject module. It uses [googletest][1] as the
